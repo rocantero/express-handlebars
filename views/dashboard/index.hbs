@@ -1,0 +1,107 @@
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+<script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
+
+<style>
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .chart {
+    padding-bottom: 20px;
+  }
+  .table {
+    padding-bottom: 20px;
+  }
+  h1, h2 {
+    text-align: center;
+  }
+</style>
+
+<div class="container">
+  <h1>ShopKeeper Dashboard</h1>
+  <p><small>Solution proposal by Rodrigo Cantero (cantero.rodrigo91@gmail.com)</small></p>
+  <section class="chart">
+    <div class="chart__container">
+      <canvas id="listings_chart"></canvas>
+    </div>
+  </section>
+  <section class="table">
+    <h2>Listings</h2>
+    <table id="listings_table">
+      <thead>
+        <tr>
+          <th>Listing ID</th>
+          <th>Month</th>
+          <th>Date</th>
+          <th>Broker</th>
+          <th>Revenue</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{#each tableData}}
+          <tr>
+            <td>{{id}}</td>
+            <td>{{month}}</td>
+            <td>{{date}}</td>
+            <td>{{broker}}</td>
+            <td>{{revenue}}</td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </section>
+</div>
+
+<script>
+  // Write your chart rendering code here
+  // For example, using Chart.js
+  var ctx = document.getElementById('listings_chart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {{{chartData}}},
+    options: {
+      scales: {
+       y: {
+         ticks: {
+           callback: function(value, index, values) {
+             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+           }
+          }
+        }
+      },
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          padding: 10
+        },
+        title: {
+          display: true,
+          text: 'Broker Revenue per Month'
+        },
+        tooltip: {
+            callbacks: {
+                label: function(context) {
+                    let label = context.dataset.label || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    if (context.parsed.y !== null) {
+                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                    }
+                    return label;
+                }
+            }
+        }
+      }
+    },
+  });
+
+  const dataTable = new simpleDatatables.DataTable("#listings_table", {
+    searchable: true,
+    fixedHeight: true
+  })
+</script>
