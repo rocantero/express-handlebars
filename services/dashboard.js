@@ -5,7 +5,7 @@ const QUERY = {
   start_date: '2020-11-01',
   end_date: '2021-11-30'
 }
-const LABELS = ['Nov 20', 'Dec 20', 'Jan 21', 'Feb 21', 'Mar 21', 'Apr 21', 'May 21', 'Jun 21', 'Jul 21', 'Aug 21', 'Sep 21', 'Oct 21', 'Nov 21'];
+const LABELS = ['Nov 2020', 'Dec 2020', 'Jan 2021', 'Feb 2021', 'Mar 2021', 'Apr 2021', 'May 2021', 'Jun 2021', 'Jul 2021', 'Aug 2021', 'Sep 2021', 'Oct 2021', 'Nov 2021'];
 const COLORS = [ "rgb(139, 193, 247)", "rgb(189, 226, 185)", "rgb(162, 217, 217)", "rgb(178, 176, 234)", "rgb(249, 224, 162)", "rgb(244, 182, 120)",
   "rgb(201, 25, 11)", "rgb(124, 198, 116)", "rgb(115, 197, 197)", "rgb(132, 129, 221)", "rgb(246, 209, 115)", "rgb(239, 146, 52)",
   "rgb(163, 0, 0)", "rgb(76, 177, 64)", "rgb(0, 149, 150)", "rgb(87, 82, 209)", "rgb(244, 193, 69)", "rgb(236, 122, 8)", "rgb(125, 16, 7)",
@@ -45,20 +45,27 @@ const transformToChartData = (data, siteMap) => {
     if (!acc[site_id]) {
       acc[site_id] = {};
     } 
-    const month = moment(listing_date).format('MMM YY');
+    const month = moment(listing_date).format('MMM YYYY');
     if (!acc[site_id][month]) {
-      acc[site_id][month] = 0;
+      acc[site_id][month] = [0,0];
     } 
     // Truncate revenue to avoid large numbers
-    const truncatedRevenue = parseInt(revenue.toString().slice(-12));
-    acc[site_id][month] += truncatedRevenue;
+    const truncatedRevenue = parseInt(revenue.toString().slice(-10));
+    acc[site_id][month][0] += truncatedRevenue;
+    acc[site_id][month][1] += 1;
     return acc;
   }, {});
 
-
+  const avg = (item) => {
+    if (!item) {
+      return [0,0];
+    }
+    const [sum, count] = item;
+    const avg = count === 0 ? 0 : (sum / count);
+    return [count, avg];
+  }
   const datasets = Object.keys(grouped).map((site_id, index) => {
-    // Map over the LABELS constant to zero-fill missing months
-    const data = LABELS.map(label => grouped[site_id][label] || 0);
+    const data = LABELS.map(month => avg(grouped[site_id][month]) );
     return {
       label: siteMap[site_id],
       data,
