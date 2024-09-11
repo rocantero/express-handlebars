@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Dashboard</title>
+  </head>
+  <body>
+    <script src="index_files/chart.js"></script>
+<script src="index_files/simple-datatables@latest" type="text/javascript"></script>
+
+<style>
+  .container {
+    max-width: 1440px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  .chart {
+    padding-bottom: 20px;
+  }
+  .table {
+    padding-bottom: 20px;
+  }
+  h1, h2 {
+    text-align: center;
+  }
+</style>
+
+<div class="container">
+  <h1>ShopKeeper Dashboard</h1>
+  <p><small>Solution proposal by Rodrigo Cantero (cantero.rodrigo91@gmail.com)</small></p>
+  <section class="chart">
+    <div class="chart__container">
+      <canvas id="listings_chart" style="display: block; box-sizing: border-box; height: 720px; width: 1440px;" width="1440" height="720"></canvas>
+    </div>
+  </section>
+  <section class="table">
+    <h2>Listings</h2>
+    <div class="datatable-wrapper datatable-loading no-footer sortable searchable fixed-height fixed-columns"><div class="datatable-top">
+    <div class="datatable-dropdown">
+            <label>
+                <select class="datatable-selector" name="per-page"><option value="5">5</option><option value="10" selected="selected">10</option><option value="15">15</option><option value="20">20</option><option value="25">25</option></select> entries per page
+            </label>
+        </div>
+    <div class="datatable-search">
+            <input class="datatable-input" placeholder="Search..." type="search" name="search" title="Search within table" aria-controls="listings_table">
+        </div>
+</div>
+<div class="datatable-container" style="height: 367px;"><table id="listings_table" class="datatable-table"><thead><tr><th data-sortable="true" style="width: 13.333333333333334%;"><button class="datatable-sorter">Listing ID</button></th><th data-sortable="true" style="width: 18.75%;"><button class="datatable-sorter">Month</button></th><th data-sortable="true" style="width: 13.958333333333334%;"><button class="datatable-sorter">Date</button></th><th data-sortable="true" style="width: 26.666666666666668%;"><button class="datatable-sorter">Broker</button></th><th data-sortable="true" style="width: 27.291666666666664%;"><button class="datatable-sorter">Revenue</button></th></tr></thead><tbody><tr data-index="0"><td>2142</td><td>November 2020</td><td>11-02-2020</td><td>websiteclosers.com</td><td>$0.00</td></tr><tr data-index="1"><td>2234</td><td>November 2020</td><td>11-02-2020</td><td>feinternational.com</td><td>$136,000.00</td></tr><tr data-index="2"><td>2127</td><td>November 2020</td><td>11-02-2020</td><td>feinternational.com</td><td>$26,500.00</td></tr><tr data-index="3"><td>2063</td><td>November 2020</td><td>11-02-2020</td><td>feinternational.com</td><td>$263,000.00</td></tr><tr data-index="4"><td>2271</td><td>November 2020</td><td>11-03-2020</td><td>websiteclosers.com</td><td>$0.00</td></tr><tr data-index="5"><td>2322</td><td>November 2020</td><td>11-03-2020</td><td>latonas.com</td><td>$0.00</td></tr><tr data-index="6"><td>2190</td><td>November 2020</td><td>11-04-2020</td><td>quietlightbrokerage.com</td><td>$313,160.00</td></tr><tr data-index="7"><td>2196</td><td>November 2020</td><td>11-04-2020</td><td>quietlightbrokerage.com</td><td>$6,198,838.00</td></tr><tr data-index="8"><td>2078</td><td>November 2020</td><td>11-04-2020</td><td>feinternational.com</td><td>$184,000.00</td></tr><tr data-index="9"><td>2108</td><td>November 2020</td><td>11-04-2020</td><td>websiteclosers.com</td><td>$0.00</td></tr></tbody></table></div>
+<div class="datatable-bottom">
+    <div class="datatable-info">Showing 1 to 10 of 1333 entries</div>
+    <nav class="datatable-pagination"><ul class="datatable-pagination-list"><li class="datatable-pagination-list-item datatable-hidden datatable-disabled"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">‹</button></li><li class="datatable-pagination-list-item datatable-active"><button data-page="1" class="datatable-pagination-list-item-link" aria-label="Page 1">1</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">2</button></li><li class="datatable-pagination-list-item"><button data-page="3" class="datatable-pagination-list-item-link" aria-label="Page 3">3</button></li><li class="datatable-pagination-list-item"><button data-page="4" class="datatable-pagination-list-item-link" aria-label="Page 4">4</button></li><li class="datatable-pagination-list-item"><button data-page="5" class="datatable-pagination-list-item-link" aria-label="Page 5">5</button></li><li class="datatable-pagination-list-item"><button data-page="6" class="datatable-pagination-list-item-link" aria-label="Page 6">6</button></li><li class="datatable-pagination-list-item"><button data-page="7" class="datatable-pagination-list-item-link" aria-label="Page 7">7</button></li><li class="datatable-pagination-list-item datatable-ellipsis datatable-disabled"><button class="datatable-pagination-list-item-link">…</button></li><li class="datatable-pagination-list-item"><button data-page="134" class="datatable-pagination-list-item-link" aria-label="Page 134">134</button></li><li class="datatable-pagination-list-item"><button data-page="2" class="datatable-pagination-list-item-link" aria-label="Page 2">›</button></li></ul></nav>
+</div></div>
+  </section>
+</div>
+
+<script>
+  // Write your chart rendering code here
+  // For example, using Chart.js
+  var ctx = document.getElementById('listings_chart').getContext('2d');
+  var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {"labels":["Nov 20","Dec 20","Jan 21","Feb 21","Mar 21","Apr 21","May 21","Jun 21","Jul 21","Aug 21","Sep 21","Oct 21","Nov 21"],"datasets":[{"label":"quietlightbrokerage.com","data":[15745402,3617512,33638775,59791012,58922755,119130213,33404292,33298876,16625659,37270143,51788521,102651524,37414293],"fill":false,"borderColor":"rgb(139, 193, 247)","backgroundColor":"rgb(159,213,255)","pointRadius":6,"pointHoverRadius":8},{"label":"feinternational.com","data":[10775500,15959802,7541000,5312775,4124700,7887585,10412655,2997800,6981000,10532500,13675000,8002700,1824000],"fill":false,"borderColor":"rgb(189, 226, 185)","backgroundColor":"rgb(209,246,205)","pointRadius":6,"pointHoverRadius":8},{"label":"latonas.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,0],"fill":false,"borderColor":"rgb(162, 217, 217)","backgroundColor":"rgb(182,237,237)","pointRadius":6,"pointHoverRadius":8},{"label":"appbusinessbrokers.com","data":[2111724,0,763170,0,25293598,965318,805288,729766,1256169,0,0,48758942,46579937],"fill":false,"borderColor":"rgb(178, 176, 234)","backgroundColor":"rgb(198,196,254)","pointRadius":6,"pointHoverRadius":8},{"label":"websiteclosers.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,0],"fill":false,"borderColor":"rgb(249, 224, 162)","backgroundColor":"rgb(255,244,182)","pointRadius":6,"pointHoverRadius":8},{"label":"websiteproperties.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,36520595],"fill":false,"borderColor":"rgb(244, 182, 120)","backgroundColor":"rgb(255,202,140)","pointRadius":6,"pointHoverRadius":8},{"label":"acquisitionsdirect.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,0],"fill":false,"borderColor":"rgb(201, 25, 11)","backgroundColor":"rgb(221,45,31)","pointRadius":6,"pointHoverRadius":8},{"label":"ecommerce-brokers.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,65753587],"fill":false,"borderColor":"rgb(124, 198, 116)","backgroundColor":"rgb(144,218,136)","pointRadius":6,"pointHoverRadius":8},{"label":"empireflippers.com","data":[0,0,0,0,0,0,0,0,0,0,0,0,148268664],"fill":false,"borderColor":"rgb(115, 197, 197)","backgroundColor":"rgb(135,217,217)","pointRadius":6,"pointHoverRadius":8}]},
+    options: {
+      scales: {
+       y: {
+         ticks: {
+           callback: function(value, index, values) {
+             return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+           }
+          }
+        }
+      },
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'top',
+          padding: 10
+        },
+        title: {
+          display: true,
+          text: 'Broker Revenue per Month'
+        },
+        tooltip: {
+            callbacks: {
+                label: function(context) {
+                    let label = context.dataset.label || '';
+
+                    if (label) {
+                        label += ': ';
+                    }
+                    if (context.parsed.y !== null) {
+                        label += new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(context.parsed.y);
+                    }
+                    return label;
+                }
+            }
+        }
+      }
+    },
+  });
+
+  const dataTable = new simpleDatatables.DataTable("#listings_table", {
+    searchable: true,
+    fixedHeight: true
+  })
+</script>
+
+  
+
+</body></html>
